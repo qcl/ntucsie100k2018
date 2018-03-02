@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>臺大資訊起薪破 10 萬！</title>
+    <script>
+let deadlineDate = new Date('2018-05-20T12:28:00+08:00');
+let diffTimeString = (startDate, endDate) => {
+    let diffTime = endDate - startDate;
+    if (diffTime <= 0) {
+        return '0秒';
+    }
+    let restSeconds = Math.round(diffTime / 1000);
+    let days = Math.round(restSeconds / 86400);
+
+    restSeconds %= 86400;
+    let hours = Math.round(restSeconds / 3600);
+    
+    restSeconds %= 3600;
+    let minutes = Math.round(restSeconds / 60);
+
+    restSeconds %= 60;
+    let seconds = restSeconds;
+
+    return ` ${days} 天 ${hours} 小時 ${minutes} 分 ${seconds} 秒`;
+};
+let updateCountdownTime = () => {
+    let countdownSpan = document.querySelector('span#countdown');
+    let couthdownText = diffTimeString(Date.now(), deadlineDate);
+    countdownSpan.innerHTML = couthdownText;
+};
+let update = setInterval(function(){
+    updateCountdownTime();
+}, 1000);
+    </script>
+    <style>
+.countdown-area {
+    margin-top: 10vh;
+    text-align: center;
+}
+
+.countdown-area #countdown {
+    font-size: 2em;
+}
+
+.are-you-100k {
+    text-align: center;      
+}
+    </style>
+</head>
+<body>
+    <div>
+        <div class='countdown-area'>
+            <p>還有<span id='countdown'>時間嗎？<span></p>
+        </div>
+        <div class='are-you-100k'>
+            <h1>你的月薪破 10 萬了嗎？</h1>
+            <p><a href='http://mrjamie.cc/2015/05/20/cs-crunch/'>「三年內，台大資工畢業起薪將破台幣 10 萬」</a>(<a href='https://web.archive.org/web/20150522223407/http://mrjamie.cc/2015/05/20/cs-crunch/'>2015.05.20</a>)</p>
+        </div>
+    </div>
+</body>
+</html>
+
