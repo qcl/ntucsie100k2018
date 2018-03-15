@@ -66,10 +66,10 @@ let updateSalary = () => {
     let currencyName = '新臺幣🇹🇼';
     while(true) {
         c = Math.round(Math.random() * currencyNames.length);
-        if ( c > currencyNames.length ) {
+        if ( c >= currencyNames.length ) {
             if (currentCurrency != 'TWD') {
                 currentCurrency = 'TWD';
-                currencyName = '新臺幣';
+                currencyName = '新臺幣🇹🇼';
                 rate = 1;
                 break;
             }
