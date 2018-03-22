@@ -7,13 +7,14 @@
 let deadlineDate = new Date('2018-05-20T12:28:00+08:00');
 let exchangeRates = {};
 let currencies = {
+    'TWD': '新臺幣🇹🇼',
     'CNY': '人民幣🇨🇳',
     'HKD': '港幣🇭🇰',
-    'USD': '美元💲',
-    'JPY': '日圓💴',
-    'EUR': '歐元💶',
+    'USD': '美元🇺🇸',
+    'JPY': '日圓🇯🇵',
+    'EUR': '歐元🇪🇺',
     'SGD': '新加坡元🇸🇬',
-    'GBP': '英鎊💷',
+    'GBP': '英鎊🇬🇧',
 };
 let diffTimeString = (startDate, endDate) => {
     let diffTime = endDate - startDate;
@@ -54,6 +55,8 @@ let update = setInterval(function(){
 let updateExchangeRates = () => {
     fetch('https://qcurrency-exchange-rates.appspot.com/api/latest').then(response => { return response.json(); }).then(jsonObj => {
         exchangeRates = jsonObj.rates;
+        // append TWD manually
+        exchangeRates['TWD'] = 1;
         console.log('exchange rates updated');
     });
 };
@@ -67,12 +70,7 @@ let updateSalary = () => {
     while(true) {
         c = Math.round(Math.random() * currencyNames.length);
         if ( c >= currencyNames.length ) {
-            if (currentCurrency != 'TWD') {
-                currentCurrency = 'TWD';
-                currencyName = '新臺幣🇹🇼';
-                rate = 1;
-                break;
-            }
+            continue;
         } else {
             let currency = currencyNames[c];
             if (currency != currentCurrency && exchangeRates[currency] != undefined) {
@@ -83,10 +81,12 @@ let updateSalary = () => {
             }
         }
     }
-    let salary = Math.round(baseSalary / rate);
-    salaryStr = `${salary} ${currencyName}`;
-    let salarySpan = document.querySelector('span#salary');
-    salarySpan.innerHTML = salaryStr;
+    let salaryUnit = (Math.round(Math.random() * 2) % 2 == 0) ? 1 : 12;
+    let salaryUnitStr = (salaryUnit == 1) ? '月薪' : '年薪';
+    let salary = Math.round(salaryUnit * baseSalary / rate);
+    salaryStr = `你的${salaryUnitStr}破 ${salary} ${currencyName}了嗎？`;
+    let salaryH1 = document.querySelector('h1#salary');
+    salaryH1.innerHTML = salaryStr;
 };
     </script>
     <style>
@@ -110,7 +110,7 @@ let updateSalary = () => {
             <p>還有<span id='countdown'>時間嗎？<span></p>
         </div>
         <div class='are-you-100k'>
-            <h1>你的月薪破 <span id='salary'>100000 新臺幣🇹🇼</span>了嗎？</h1>
+            <h1 id='salary'>你的月薪破 100000 新臺幣🇹🇼了嗎？</h1>
             <p><a href='http://mrjamie.cc/2015/05/20/cs-crunch/'>「三年內，台大資工畢業起薪將破台幣 10 萬」</a>(<a href='https://web.archive.org/web/20150522223407/http://mrjamie.cc/2015/05/20/cs-crunch/'>2015.05.20</a>)</p>
         </div>
     </div>
