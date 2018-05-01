@@ -15,7 +15,10 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-3607701-14');
+gtag('config', 'UA-3607701-14', {
+    'page_title': '臺大資訊起薪破 10 萬！',
+    'page_path': '/'
+});
 </script>
 
     <script>
@@ -24,7 +27,11 @@ let btnDidClick = () => {
     plus.classList.remove('up');
     void plus.offsetWidth;  // what the magic...
     plus.classList.add('up');
-
+    gtag('event', 'click', {
+        'event_category': 'button',
+        'event_label': '🚀',
+        'value': 1
+    }); 
 };
 
 let deadlineDate = new Date('2018-05-20T12:28:00+08:00');
