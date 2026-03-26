@@ -94,6 +94,9 @@ let updateExchangeRates = () => {
         // append TWD manually
         exchangeRates['TWD'] = 1;
         console.log('exchange rates updated');
+    }).catch(err => {
+        console.error('exchange rates update failed', err);
+        exchangeRates['TWD'] = 1;
     });
 };
 updateExchangeRates();
@@ -103,18 +106,15 @@ let updateSalary = () => {
     let rate = 1;
     let baseSalary = 100000;
     let currencyName = '新臺幣🇹🇼';
-    while(true) {
-        c = Math.round(Math.random() * currencyNames.length);
-        if ( c >= currencyNames.length ) {
-            continue;
-        } else {
-            let currency = currencyNames[c];
-            if (currency != currentCurrency && exchangeRates[currency] != undefined) {
-                currentCurrency = currency;
-                currencyName = currencies[currency];
-                rate = exchangeRates[currency];
-                break;
-            }
+    let maxRetries = 100;
+    while(maxRetries-- > 0) {
+        c = Math.floor(Math.random() * currencyNames.length);
+        let currency = currencyNames[c];
+        if (exchangeRates[currency] != undefined) {
+            currentCurrency = currency;
+            currencyName = currencies[currency];
+            rate = exchangeRates[currency];
+            break;
         }
     }
     let salaryUnit = (Math.round(Math.random() * 2) % 2 == 0) ? 1 : 12;
@@ -226,7 +226,7 @@ footer p {
 <body>
     <div class='countdown'>
         <div class='countdown-area'>
-            <p><span id='prefix'></span><span id='countdown'>同位素定年中...<span></p>
+            <p><span id='prefix'></span><span id='countdown'>同位素定年中...</span></p>
         </div>
         <div class='are-you-100k'>
             <h1 id='salary'>你的月薪破 100000 新臺幣🇹🇼了嗎？</h1>
